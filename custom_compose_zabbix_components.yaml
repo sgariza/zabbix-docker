@@ -296,16 +296,16 @@ services:
    com.zabbix.description: "Zabbix proxy with MySQL database support"
    com.zabbix.dbtype: "mysql"
 
- apache:
+ web-apache:
   profiles:
    - all
   ports:
-   - name: http
+   - name: web-http
      target: 8080
      published: "${ZABBIX_WEB_APACHE_HTTP_PORT}"
      protocol: tcp
      app_protocol: http
-   - name: https
+   - name: web-https
      target: 8443
      published: "${ZABBIX_WEB_APACHE_HTTPS_PORT}"
      protocol: tcp
@@ -351,9 +351,9 @@ services:
    com.zabbix.component: "frontend"
    com.zabbix.webserver: "apache2"
 
- apache-mysql:
+ web-apache-mysql:
   extends:
-   service: apache
+   service: web-apache
 #  volumes:
 #   - mysql_socket:/var/run/mysqld/
   env_file:
@@ -366,30 +366,8 @@ services:
 #   - client-cert.pem
 #   - root-ca.pem
   labels:
-   com.zabbix.description: "Zabbix frontend on Apache server with MySQL database support"
+   com.zabbix.description: "Zabbix frontend on Apache web-server with MySQL database support"
    com.zabbix.dbtype: "mysql"
-
- apache-pgsql:
-  extends:
-   service: apache
-#  volumes:
-#   - ${ENV_VARS_DIRECTORY}/.ZBX_DB_CA_FILE:/run/secrets/root-ca.pem:ro
-#   - ${ENV_VARS_DIRECTORY}/.ZBX_DB_CERT_FILE:/run/secrets/client-cert.pem:ro
-#   - ${ENV_VARS_DIRECTORY}/.ZBX_DB_KEY_FILE:/run/secrets/client-key.pem:ro
-#   - pgsql_socket:/var/run/postgresql
-  env_file:
-   - path: ${ENV_VARS_DIRECTORY}/.env_db_pgsql
-     required: true
-  secrets:
-   - POSTGRES_USER
-   - POSTGRES_PASSWORD
-  networks:
-   backend:
-    aliases:
-     - zabbix-apache-pgsql
-  labels:
-   com.zabbix.description: "Zabbix frontend on Apache server with PostgreSQL database support"
-   com.zabbix.dbtype: "pgsql"
 
  agent:
   init: true
@@ -572,12 +550,12 @@ services:
    com.zabbix.company: "Zabbix SIA"
    com.zabbix.component: "snmptraps"
 
- service:
+ web-service:
   profiles:
    - full
    - all
   ports:
-   - name: zabbix-service
+   - name: zabbix-web-service
      target: 10053
      published: "${ZABBIX_WEB_SERVICE_PORT}"
      protocol: tcp
@@ -605,9 +583,9 @@ services:
   networks:
    backend:
     aliases:
-     - zabbix-service
+     - zabbix-web-service
   stop_grace_period: 5s
   labels:
    com.zabbix.description: "Zabbix web service"
    com.zabbix.company: "Zabbix SIA"
-   com.zabbix.component: "service"
+   com.zabbix.component: "web-service"
