@@ -1,7 +1,7 @@
 services:
  server-db-init:
   extends:
-   file: compose_zabbix_components.yaml
+   file: custom_compose_zabbix_components.yaml
    service: server-mysql-db-init
   image: "${ZABBIX_SERVER_MYSQL_IMAGE}:${ZABBIX_ALPINE_IMAGE_TAG}${ZABBIX_IMAGE_TAG_POSTFIX}"
   volumes:
@@ -14,7 +14,7 @@ services:
 
  zabbix-server:
   extends:
-   file: compose_zabbix_components.yaml
+   file: custom_compose_zabbix_components.yaml
    service: server-mysql
   image: "${ZABBIX_SERVER_MYSQL_IMAGE}:${ZABBIX_ALPINE_IMAGE_TAG}${ZABBIX_IMAGE_TAG_POSTFIX}"
   volumes:
@@ -27,7 +27,7 @@ services:
 
  zabbix-web-apache-mysql:
   extends:
-   file: compose_zabbix_components.yaml
+   file: custom_compose_zabbix_components.yaml
    service: web-apache-mysql
   image: "${ZABBIX_WEB_APACHE_MYSQL_IMAGE}:${ZABBIX_ALPINE_IMAGE_TAG}${ZABBIX_IMAGE_TAG_POSTFIX}"
   volumes:
@@ -40,7 +40,7 @@ services:
 
  zabbix-agent:
   extends:
-   file: compose_zabbix_components.yaml
+   file: custom_compose_zabbix_components.yaml
    service: agent
   image: "${ZABBIX_AGENT_IMAGE}:${ZABBIX_ALPINE_IMAGE_TAG}${ZABBIX_IMAGE_TAG_POSTFIX}"
   volumes:
@@ -50,7 +50,7 @@ services:
 
  zabbix-snmptraps:
   extends:
-   file: compose_zabbix_components.yaml
+   file: custom_compose_zabbix_components.yaml
    service: snmptraps
   image: "${ZABBIX_SNMPTRAPS_IMAGE}:${ZABBIX_ALPINE_IMAGE_TAG}${ZABBIX_IMAGE_TAG_POSTFIX}"
   labels:
@@ -58,7 +58,7 @@ services:
 
  zabbix-web-service:
   extends:
-   file: compose_zabbix_components.yaml
+   file: custom_compose_zabbix_components.yaml
    service: web-service
   image: "${ZABBIX_WEB_SERVICE_IMAGE}:${ZABBIX_ALPINE_IMAGE_TAG}${ZABBIX_IMAGE_TAG_POSTFIX}"
   labels:
