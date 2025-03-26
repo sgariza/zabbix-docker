@@ -114,28 +114,6 @@ services:
    com.zabbix.description: "Zabbix server with MySQL database support"
    com.zabbix.dbtype: "mysql"
 
- server-pgsql:
-  extends:
-   service: server
-#  volumes:
-#   - ${ENV_VARS_DIRECTORY}/.ZBX_DB_CA_FILE:/run/secrets/root-ca.pem:ro
-#   - ${ENV_VARS_DIRECTORY}/.ZBX_DB_CERT_FILE:/run/secrets/client-cert.pem:ro
-#   - ${ENV_VARS_DIRECTORY}/.ZBX_DB_KEY_FILE:/run/secrets/client-key.pem:ro
-#   - pgsql_socket:/var/run/postgresql
-  env_file:
-   - path: ${ENV_VARS_DIRECTORY}/.env_db_pgsql
-     required: true
-  secrets:
-   - POSTGRES_USER
-   - POSTGRES_PASSWORD
-  networks:
-   backend:
-     aliases:
-      - zabbix-server-pgsql
-  labels:
-   com.zabbix.description: "Zabbix server with PostgreSQL database support"
-   com.zabbix.dbtype: "pgsql"
-
  proxy:
   init: true
   profiles:
